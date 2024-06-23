@@ -1,1 +1,3 @@
-export const test = (req, res) => {res.send("Hello World! I'm Khanh Minh Bui")};
+export const test = (req, res) => {res.json({
+    mess: "Hello World! I'm Khanh Minh Bui"
+})};
