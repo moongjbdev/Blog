@@ -15,11 +15,20 @@ app.use(express.json());
 
 // Connect to MongoDB
 mongoose.connect(URI_DB).then(() => console.log("Connected to MongoDB, Successfully!")).catch(err => console.log(err));;
+app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
 
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 
 
-
-app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
+// Middleware for error handling
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal Server Error -- from MoongJB";
+    res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message: `${message} ^.^ <3 MoongJBdev`
+    });
+});
