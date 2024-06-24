@@ -3,7 +3,7 @@ import bcryptjs from "bcryptjs"
 import { errorHandle } from "../utils/error.js"
 
 export const signup = async (req, res, next) => {
-    const { username,email, password} = req.body
+    const { username, email, password} = req.body
     if(!username || !email || !password || username === "" || email === "" || password === ""){
         next(errorHandle(400, "Please fill all the fields"))
     }
