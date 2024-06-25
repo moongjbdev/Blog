@@ -1,10 +1,17 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 export default function SignIn() {
   const [formData, setFormData] = React.useState({});
-  const [errMessage, setErrorMessage] = React.useState(null);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const { loading, error: errMessage } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const handleChange = (e) => {
     const value = e.target.value.trim();
@@ -17,12 +24,11 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      setErrorMessage("Please fill all the fields");
+      dispatch(signInFailure("Email and password are required"));
       return;
     }
     try {
-      setIsLoading(true);
-      setErrorMessage(null);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -32,15 +38,14 @@ export default function SignIn() {
       });
       const data = await res.json();
       if (data.success === false) {
-        return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
-      setIsLoading(false);
       if (res.ok) {
+        dispatch(signInSuccess(data));
         navigate("/");
       }
     } catch (error) {
-      setErrorMessage(error.message);
-      setIsLoading(false);
+      dispatch(signInFailure(error.message));
     }
   };
   return (
@@ -83,9 +88,9 @@ export default function SignIn() {
             <Button
               gradientDuoTone="purpleToPink"
               type="submit"
-              disabled={isLoading}
+              disabled={loading}
             >
-              {isLoading ? (
+              {loading ? (
                 <>
                   <Spinner size="sm" />
                   <span className="pl-3">Loading...</span>
