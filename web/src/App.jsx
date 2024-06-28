@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn";
 import DashBoard from "./pages/DashBoard";
 import Projects from "./pages/Projects";
 import Footer from "./components/Footer";
+import PriveteRoute from "./components/PriveteRoute";
 
 //=====================================================//
 export default function App() {
@@ -21,7 +22,9 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/dashboard" element={<DashBoard />} />
+        <Route element={<PriveteRoute />}>
+          <Route path="/dashboard" element={<DashBoard />} />
+        </Route>
         <Route path="/projects" element={<Projects />} />
       </Routes>
       <Footer />
