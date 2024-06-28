@@ -19,11 +19,9 @@ export default function DashBoard() {
         {/* Sidebar */}
         <DashSidebar />
       </div>
-      <div className="content">
-        {/* Profile */}
-        {tab === "profile" && <DashProfile />}
-        {/* Add more conditions for other tabs if needed */}
-      </div>
+      {/* Profile */}
+      {tab === "profile" && <DashProfile />}
+      {/* Add more conditions for other tabs if needed */}
     </div>
   );
 }

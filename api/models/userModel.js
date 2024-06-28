@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePicture: {       
         type: String,
-        default: "" //Mac dinh khong de gi ca
+        default: "https://static.vecteezy.com/system/resources/previews/004/819/327/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg" //Mac dinh khong de gi ca
     }
 },{timestamps: true}
 );
