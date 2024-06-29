@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoute.js";
 import authRoutes from "./routes/authRoute.js";
+import postRoutes from "./routes/postRoute.js";
+
 import cookieParser from 'cookie-parser';
 //=====================================================================//
 //Declaration
@@ -22,6 +24,8 @@ app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/post', postRoutes);
+
 
 
 // Middleware for error handling
