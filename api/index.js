@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoute.js";
 import authRoutes from "./routes/authRoute.js";
+import cookieParser from 'cookie-parser';
 //=====================================================================//
 //Declaration
 dotenv.config();
@@ -12,6 +13,7 @@ const URI_DB = process.env.URI_DB || "mongodb://localhost:27017";
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 // Connect to MongoDB
 mongoose.connect(URI_DB).then(() => console.log("Connected to MongoDB, Successfully!")).catch(err => console.log(err));;

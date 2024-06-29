@@ -138,7 +138,7 @@ export default function DashProfile() {
         />
         <TextInput type="password" id="password" placeholder="********" />
         <Button type="submit" gradientDuoTone="purpleToBlue">
-          Save change
+          Update
         </Button>
         <div className="text-red-500 flex justify-between mt-5">
           <span className="cursor-pointer">Delete Account</span>
