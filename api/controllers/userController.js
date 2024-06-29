@@ -2,11 +2,6 @@ import bcryptjs from "bcryptjs";
 import User from "../models/userModel.js";
 import { errorHandle } from "../utils/error.js";
 
-
-export const test = (req, res) => {res.json({
-    mess: "Hello World! I'm Khanh Minh Bui"
-})};
-
 export const updateUser = async (req, res, next) => {
     //Check user id from middleware == user id parameter
     if (req.user._id !== req.params.userId){
@@ -55,4 +50,17 @@ export const updateUser = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+}
+
+export const deleteUser = async (req, res, next) => {
+    if (req.user._id !== req.params.userId){
+        return next(errorHandle(401, "You are not allowed to delete this user!!"))
+    } 
+    try {
+        await User.findByIdAndDelete(req.params.userId)
+        res.status(200).json({message: "User deleted successfully"})
+    } catch (error) {
+        next(error)
+    }
+
 }
