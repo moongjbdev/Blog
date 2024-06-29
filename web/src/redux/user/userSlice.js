@@ -48,6 +48,11 @@ export const userSlice = createSlice({
     deleteFailure: (state, action) => {
       state.loading = false
       state.error = action.payload
+    },
+    signoutSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
+      state.currentUser = null
     }
   },
 })
@@ -56,7 +61,8 @@ export const userSlice = createSlice({
 export const { 
   signInStart, signInSuccess, signInFailure,
   updateStart, updateSuccess, updateFailure,
-  deleteStart, deleteSuccess, deleteFailure 
+  deleteStart, deleteSuccess, deleteFailure,
+  signoutSuccess 
 } = userSlice.actions
 
 // Export the reducer to be added to the store
