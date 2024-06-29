@@ -41,10 +41,11 @@ export const signin = async (req, res, next) => {
         if(!validPassword){
             return next(errorHandle(401, "Invalid password"))
         }   
+        const token = jwt.sign({_id: validUser._id, isAdmin: validUser.isAdmin}, process.env.JWT_SECRET)
+
         //hidden password
         const {password: a, ...rest} = validUser._doc
 
-        const token = jwt.sign({_id: validUser._id}, process.env.JWT_SECRET)
         res.status(200).cookie('access_token', token, {httpOnly: true}).json(rest)
     } catch (error) {
         next(error)
@@ -58,7 +59,7 @@ export const google = async (req, res, next) => {
         const user = await User.findOne({email})
         if(user){
             //if user already exists, return token
-            const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET)
+            const token = jwt.sign({_id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET)
             //hidden password when return
             const {password: pass, ...rest} = user._doc
             res.status(200).cookie('access_token', token, {httpOnly: true}).json(rest)
@@ -77,7 +78,7 @@ export const google = async (req, res, next) => {
                 profilePicture: googlePhotoUrl
             })
             await newUser.save()
-            const token = jwt.sign({_id: newUser._id}, process.env.JWT_SECRET)
+            const token = jwt.sign({_id: newUser._id, isAdmin: newUser.isAdmin}, process.env.JWT_SECRET)
             const {password: pass, ...rest} = newUser._doc
             res.status(200).cookie('access_token', token, {httpOnly: true}).json(rest)
         }
