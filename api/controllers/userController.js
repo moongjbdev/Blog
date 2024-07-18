@@ -73,3 +73,45 @@ export const signout = async (req, res, next) => {
         next(error)
     }
 }
+
+export const getUsers = async (req, res, next) => {
+    if(!req.user.isAdmin) {
+        return next(errorHandle(401, "You are not allowed to access this route"))
+    }
+    try {
+        const startIndex = parseInt(req.query.startIndex) || 0
+        const limit = parseInt(req.query.limit) || 9
+        const sortDirection = req.query.sort === "asc" ? 1 : -1
+
+        const users = await User.find().sort({createdAt: sortDirection}).skip(startIndex).limit(limit)
+
+        const usersWithOutPasswords = users.map(user => {
+            const {password, ...rest} = user._doc
+            return rest
+        })
+
+        const totalUsers = await User.countDocuments(); 
+
+        const now = new Date()
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth() - 1,
+            now.getDate()
+        )
+
+        const lastMonthUsers = await User.countDocuments(
+            {createdAt: { $gte: oneMonthAgo}}
+        );
+
+        res.status(200).json({
+            users: usersWithOutPasswords,
+            totalUsers,
+            lastMonthUsers
+        })
+
+
+        
+    } catch (error) {
+        console.log(error.message)
+    }
+}
