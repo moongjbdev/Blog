@@ -128,7 +128,7 @@ export default function DashPosts() {
                       className="text-teal-500 hover:underline"
                       to={`/update-post/${post._id}`}
                     >
-                      <span onClick={() => console.log("Edit post")}>Edit</span>
+                      <span>Edit</span>
                     </Link>
                   </Table.Cell>
                 </Table.Row>
