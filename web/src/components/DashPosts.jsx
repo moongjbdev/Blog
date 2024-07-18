@@ -5,7 +5,28 @@ import { Link } from "react-router-dom";
 export default function DashPosts() {
   const { currentUser } = useSelector((state) => state.user);
   const [userPost, setUserPost] = useState([]);
-  console.log(userPost);
+  const [showMore, setShowMore] = useState(true);
+
+  const handleShowMore = async () => {
+    const startIndex = userPost.length;
+    try {
+      const response = await fetch(
+        `/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setUserPost((prevState) => [...prevState, ...data.posts]); // append new posts to the existing array
+        if (data.posts.length < 9) {
+          setShowMore(false);
+        }
+      } else {
+        console.error("Error fetching more posts:", response.statusText);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     const fetchPosts = async (req, res) => {
       try {
@@ -15,6 +36,9 @@ export default function DashPosts() {
         const data = await response.json(); //total posts, posts, last month post
         if (response.ok) {
           setUserPost(data.posts); // posts
+          if (data.posts.length < 9) {
+            setShowMore(false);
+          }
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -83,6 +107,14 @@ export default function DashPosts() {
               </Table.Body>
             ))}
           </Table>
+          {showMore && (
+            <button
+              className="w-full text-teal-400 self-center text-sm py-7"
+              onClick={handleShowMore}
+            >
+              Show more
+            </button>
+          )}
         </>
       ) : (
         <p>You have no posts yet!</p>
