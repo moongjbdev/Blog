@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/userRoute.js";
 import authRoutes from "./routes/authRoute.js";
 import postRoutes from "./routes/postRoute.js";
+import commentRoutes from "./routes/commentRoute.js";
 
 import cookieParser from 'cookie-parser';
 //=====================================================================//
@@ -25,6 +26,7 @@ app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
+app.use('/api/comment', commentRoutes);
 
 
 
