@@ -1,22 +1,20 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-//======================================================//
-import Header from "./components/Header";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
-import DashBoard from "./pages/DashBoard";
+import Dashboard from "./pages/DashBoard";
 import Projects from "./pages/Projects";
+import SignUp from "./pages/SignUp";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
-import PriveteRoute from "./components/PriveteRoute";
-import OnlyAdminPriveteRoute from "./components/OnlyAdminPriveteRoute";
+import PrivateRoute from "./components/PriveteRoute";
+import OnlyAdminPrivateRoute from "./components/OnlyAdminPriveteRoute";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
 import ScrollToTop from "./components/ScrollToTop";
-//=====================================================//
+import Search from "./pages/Search";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -25,15 +23,17 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route element={<PriveteRoute />}>
-          <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/search" element={<Search />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
-        <Route element={<OnlyAdminPriveteRoute />}>
+        <Route element={<OnlyAdminPrivateRoute />}>
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/update-post/:postId" element={<UpdatePost />} />
         </Route>
+
         <Route path="/projects" element={<Projects />} />
         <Route path="/post/:postSlug" element={<PostPage />} />
       </Routes>
